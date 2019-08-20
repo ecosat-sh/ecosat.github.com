@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/caract_plantacion_para_webgis_2.js"></script>
+        <script src="data/prueba_para_webgis_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:10
+        }).fitBounds([[-23.75324433596648,-65.47686737107243],[-23.73426688207797,-65.43708697674903]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        var layer_ESRIWorldImagery_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            opacity: 1.0,
+            attribution: '',
+        });
+        layer_ESRIWorldImagery_0;
+        map.addLayer(layer_ESRIWorldImagery_0);
+        var img_Reproyectada_1 = 'data/Reproyectada_1.png';
+        var img_bounds_Reproyectada_1 = [[-23.74163219552239,-65.46893275605144],[-23.737113281921904,-65.46363131607085]];
+        var layer_Reproyectada_1 = new L.imageOverlay(img_Reproyectada_1, img_bounds_Reproyectada_1);
+        bounds_group.addLayer(layer_Reproyectada_1);
+        map.addLayer(layer_Reproyectada_1);
+        function pop_caract_plantacion_para_webgis_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['qc_id'] !== null ? Autolinker.link(String(feature.properties['qc_id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>variedad</strong><br />' + (feature.properties['variedad'] !== null ? Autolinker.link(String(feature.properties['variedad'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>plantacion</strong><br />' + (feature.properties['plantacion'] !== null ? Autolinker.link(String(feature.properties['plantacion'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>dens_pl/ha</strong><br />' + (feature.properties['dens_pl/ha'] !== null ? Autolinker.link(String(feature.properties['dens_pl/ha'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_caract_plantacion_para_webgis_2_0(feature) {
+            switch(String(feature.properties['variedad'])) {
+                case 'malbec':
+                    return {
+                pane: 'pane_caract_plantacion_para_webgis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,25,28,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'tannat':
+                    return {
+                pane: 'pane_caract_plantacion_para_webgis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,191,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_caract_plantacion_para_webgis_2');
+        map.getPane('pane_caract_plantacion_para_webgis_2').style.zIndex = 402;
+        map.getPane('pane_caract_plantacion_para_webgis_2').style['mix-blend-mode'] = 'normal';
+        var layer_caract_plantacion_para_webgis_2 = new L.geoJson(json_caract_plantacion_para_webgis_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_caract_plantacion_para_webgis_2',
+            layerName: 'layer_caract_plantacion_para_webgis_2',
+            pane: 'pane_caract_plantacion_para_webgis_2',
+            onEachFeature: pop_caract_plantacion_para_webgis_2,
+            style: style_caract_plantacion_para_webgis_2_0,
+        });
+        bounds_group.addLayer(layer_caract_plantacion_para_webgis_2);
+        map.addLayer(layer_caract_plantacion_para_webgis_2);
+        function pop_prueba_para_webgis_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['qc_id'] !== null ? Autolinker.link(String(feature.properties['qc_id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>herbi_date</strong><br />' + (feature.properties['herbi_date'] !== null ? Autolinker.link(String(feature.properties['herbi_date'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>herbi_1</strong><br />' + (feature.properties['herbi_1'] !== null ? Autolinker.link(String(feature.properties['herbi_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>herbi_2</strong><br />' + (feature.properties['herbi_2'] !== null ? Autolinker.link(String(feature.properties['herbi_2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>dosis_1</strong><br />' + (feature.properties['dosis_1'] !== null ? Autolinker.link(String(feature.properties['dosis_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>dosis_2</strong><br />' + (feature.properties['dosis_2'] !== null ? Autolinker.link(String(feature.properties['dosis_2'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_prueba_para_webgis_3_0(feature) {
+            if (feature.properties['dosis_1'] >= 5.000000 && feature.properties['dosis_1'] <= 9.000000 ) {
+                return {
+                pane: 'pane_prueba_para_webgis_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,4,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['dosis_1'] >= 9.000000 && feature.properties['dosis_1'] <= 13.000000 ) {
+                return {
+                pane: 'pane_prueba_para_webgis_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(80,18,123,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['dosis_1'] >= 13.000000 && feature.properties['dosis_1'] <= 17.000000 ) {
+                return {
+                pane: 'pane_prueba_para_webgis_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(182,54,121,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['dosis_1'] >= 17.000000 && feature.properties['dosis_1'] <= 21.000000 ) {
+                return {
+                pane: 'pane_prueba_para_webgis_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,135,97,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['dosis_1'] >= 21.000000 && feature.properties['dosis_1'] <= 25.000000 ) {
+                return {
+                pane: 'pane_prueba_para_webgis_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,253,191,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_prueba_para_webgis_3');
+        map.getPane('pane_prueba_para_webgis_3').style.zIndex = 403;
+        map.getPane('pane_prueba_para_webgis_3').style['mix-blend-mode'] = 'normal';
+        var layer_prueba_para_webgis_3 = new L.geoJson(json_prueba_para_webgis_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_prueba_para_webgis_3',
+            layerName: 'layer_prueba_para_webgis_3',
+            pane: 'pane_prueba_para_webgis_3',
+            onEachFeature: pop_prueba_para_webgis_3,
+            style: style_prueba_para_webgis_3_0,
+        });
+        bounds_group.addLayer(layer_prueba_para_webgis_3);
+        map.addLayer(layer_prueba_para_webgis_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'prueba_para_webgis<br /><table><tr><td style="text-align: center;"><img src="legend/prueba_para_webgis_3_590.png" /></td><td>5 - 9</td></tr><tr><td style="text-align: center;"><img src="legend/prueba_para_webgis_3_9131.png" /></td><td>9 - 13</td></tr><tr><td style="text-align: center;"><img src="legend/prueba_para_webgis_3_13172.png" /></td><td>13 - 17</td></tr><tr><td style="text-align: center;"><img src="legend/prueba_para_webgis_3_17213.png" /></td><td>17 - 21</td></tr><tr><td style="text-align: center;"><img src="legend/prueba_para_webgis_3_21254.png" /></td><td>21 - 25</td></tr></table>': layer_prueba_para_webgis_3,'caract_plantacion_para_webgis<br /><table><tr><td style="text-align: center;"><img src="legend/caract_plantacion_para_webgis_2_malbec0.png" /></td><td>malbec</td></tr><tr><td style="text-align: center;"><img src="legend/caract_plantacion_para_webgis_2_tannat1.png" /></td><td>tannat</td></tr></table>': layer_caract_plantacion_para_webgis_2,"Reproyectada": layer_Reproyectada_1,"ESRI World Imagery": layer_ESRIWorldImagery_0,}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
